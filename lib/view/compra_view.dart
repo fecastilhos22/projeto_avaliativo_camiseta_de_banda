@@ -76,6 +76,13 @@ class _CompraViewState extends State<CompraView> {
               DropdownButtonFormField<String>(
                 value: _tamanhoSelecionado,
                 decoration: const InputDecoration(labelText: 'Tamanho'),
+                validator: (valor) {
+                  if (valor == null || valor.isEmpty) {
+                    return 'Selecione um tamanho';
+                  }
+
+                  return null;
+                },
                 items: camiseta.tamanhosDisponiveis
                     .map(
                       (tamanho) => DropdownMenuItem(
@@ -146,7 +153,15 @@ class _CompraViewState extends State<CompraView> {
                 decoration: const InputDecoration(
                   labelText: 'Nome do comprador',
                 ),
+                validator: (valor) {
+                  if (valor == null || valor.trim().isEmpty) {
+                    return 'Informe o nome do comprador';
+                  }
+
+                  return null;
+                },
               ),
+
               const SizedBox(height: 16),
 
               // Endereço de entrega
@@ -155,6 +170,13 @@ class _CompraViewState extends State<CompraView> {
                 decoration: const InputDecoration(
                   labelText: 'Endereço de entrega',
                 ),
+                validator: (valor) {
+                  if (valor == null || valor.trim().isEmpty) {
+                    return 'Informe o endereço de entrega';
+                  }
+
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               // Card de total com quantidade e juros
@@ -174,7 +196,17 @@ class _CompraViewState extends State<CompraView> {
 
               // Botão finalizar
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  final formularioValido = _formKey.currentState!.validate();
+
+                  if (formularioValido) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Dados preenchidos corretamente!'),
+                      ),
+                    );
+                  }
+                },
                 child: const Text('Finalizar Compra'),
               ),
             ],
