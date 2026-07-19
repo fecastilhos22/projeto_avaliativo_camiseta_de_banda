@@ -155,7 +155,7 @@ class _CompraViewState extends State<CompraView> {
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                    'Total: R\$ ${camiseta.preco.toStringAsFixed(2)}',
+                    'Total: R\$ ${(camiseta.preco * _quantidade).toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
