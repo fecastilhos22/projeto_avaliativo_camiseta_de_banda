@@ -38,7 +38,11 @@ class CamisetaCard extends StatelessWidget {
             camiseta.disponivel
                 ? ElevatedButton(
                     onPressed: () {
-                      // navegação (RF06) vem no próximo passo
+                      Navigator.pushNamed(
+                        context,
+                        '/compra',
+                        arguments: camiseta,
+                      );
                     },
                     child: const Text('Comprar'),
                   )
