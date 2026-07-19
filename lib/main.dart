@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'view/catalogo_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Loja Camiseta de Banda',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Catálogo')),
-        body: const Center(
-          child: Text('Em construção...'),
-        ),
-      ),
+      home: const CatalogoView(),
     );
   }
 }
