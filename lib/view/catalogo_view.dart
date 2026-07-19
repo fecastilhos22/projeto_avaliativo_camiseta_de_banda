@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../viewModel/camiseta_viewmodel.dart';
 import '../app/data/models/camiseta.dart';
+import 'camiseta_card.dart';
 
 class CatalogoView extends StatefulWidget {
   const CatalogoView({super.key});
@@ -32,11 +33,7 @@ class _CatalogoViewState extends State<CatalogoView> {
       body: ListView.builder(
         itemCount: _camisetas.length,
         itemBuilder: (context, index) {
-          final camiseta = _camisetas[index];
-          return ListTile(
-            title: Text(camiseta.titulo),
-            subtitle: Text('R\$ ${camiseta.preco.toStringAsFixed(2)}'),
-          );
+          return CamisetaCard(camiseta: _camisetas[index]);
         },
       ),
     );
