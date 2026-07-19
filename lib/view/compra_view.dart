@@ -26,9 +26,17 @@ class _CompraViewState extends State<CompraView> {
     super.dispose();
   }
 
+  double calcularTotalComJuros(double preco) {
+    final subtotal = preco * _quantidade;
+    final percentualJuros = (_parcelas - 1) * 0.005;
+
+    return subtotal + (subtotal * percentualJuros);
+  }
+
   @override
   Widget build(BuildContext context) {
     final camiseta = widget.camiseta;
+    final totalComJuros = calcularTotalComJuros(camiseta.preco);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Finalizar Compra')),
@@ -149,13 +157,12 @@ class _CompraViewState extends State<CompraView> {
                 ),
               ),
               const SizedBox(height: 16),
-
-              // Card de total (fixo por enquanto)
+              // Card de total com quantidade e juros
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                    'Total: R\$ ${(camiseta.preco * _quantidade).toStringAsFixed(2)}',
+                    'Total: R\$ ${totalComJuros.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
