@@ -1,6 +1,7 @@
 import 'dart:convert';
 import '../datasources/product_remote_datasource.dart';
 import '../models/camiseta.dart';
+import '../models/compra.dart';
 
 class CamisetaRepository {
   final ProductRemoteDatasource _datasource = ProductRemoteDatasource();
@@ -18,5 +19,9 @@ class CamisetaRepository {
         .toList();
 
     return camisetas;
+  }
+
+  void finalizarCompra(Compra compra) {
+    print(jsonEncode(compra.toJson()));
   }
 }

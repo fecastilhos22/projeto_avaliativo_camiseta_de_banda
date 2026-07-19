@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app/data/models/camiseta.dart';
+import '../app/data/models/compra.dart';
+import '../viewModel/camiseta_viewmodel.dart';
 
 class CompraView extends StatefulWidget {
   final Camiseta camiseta;
@@ -12,6 +14,7 @@ class CompraView extends StatefulWidget {
 
 class _CompraViewState extends State<CompraView> {
   final _formKey = GlobalKey<FormState>();
+  final CamisetaViewModel _viewModel = CamisetaViewModel();
 
   String? _tamanhoSelecionado;
   int _quantidade = 1;
@@ -74,7 +77,7 @@ class _CompraViewState extends State<CompraView> {
 
               // Tamanho (Dropdown)
               DropdownButtonFormField<String>(
-                value: _tamanhoSelecionado,
+                initialValue: _tamanhoSelecionado,
                 decoration: const InputDecoration(labelText: 'Tamanho'),
                 validator: (valor) {
                   if (valor == null || valor.isEmpty) {
@@ -132,7 +135,7 @@ class _CompraViewState extends State<CompraView> {
 
               // Parcelas (Dropdown)
               DropdownButtonFormField<int>(
-                value: _parcelas,
+                initialValue: _parcelas,
                 decoration: const InputDecoration(labelText: 'Parcelas'),
                 items: List.generate(6, (index) => index + 1)
                     .map(
@@ -196,15 +199,37 @@ class _CompraViewState extends State<CompraView> {
 
               // Botão finalizar
               ElevatedButton(
-                onPressed: () {
-                  final formularioValido = _formKey.currentState!.validate();
+                onPressed: () async {
+                  final formularioValido =
+                      _formKey.currentState?.validate() ?? false;
 
-                  if (formularioValido) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Dados preenchidos corretamente!'),
-                      ),
-                    );
+                  if (!formularioValido) {
+                    return;
+                  }
+
+                  final compra = Compra(
+                    produtoTitulo: camiseta.titulo,
+                    tamanho: _tamanhoSelecionado!,
+                    quantidade: _quantidade,
+                    valorTotal: totalComJuros,
+                    parcelas: _parcelas,
+                    responsavel: _nomeController.text.trim(),
+                    endereco: _enderecoController.text.trim(),
+                  );
+
+                  _viewModel.finalizarCompra(compra);
+
+                  final snackBarController = ScaffoldMessenger.of(context)
+                      .showSnackBar(
+                        const SnackBar(
+                          content: Text('Compra realizada com sucesso'),
+                        ),
+                      );
+
+                  await snackBarController.closed;
+
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
                   }
                 },
                 child: const Text('Finalizar Compra'),
