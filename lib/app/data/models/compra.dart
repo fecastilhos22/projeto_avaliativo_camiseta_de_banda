@@ -1,5 +1,5 @@
 class Compra {
-  final String produtoTitulo;
+  final String idProduto;
   final String tamanho;
   final int quantidade;
   final double valorTotal;
@@ -8,7 +8,7 @@ class Compra {
   final String endereco;
 
   Compra({
-    required this.produtoTitulo,
+    required this.idProduto,
     required this.tamanho,
     required this.quantidade,
     required this.valorTotal,
@@ -19,7 +19,7 @@ class Compra {
 
   Map<String, dynamic> toJson() {
     return {
-      'produtoTitulo': produtoTitulo,
+      'idProduto': idProduto,
       'tamanho': tamanho,
       'quantidade': quantidade,
       'valorTotal': valorTotal,
