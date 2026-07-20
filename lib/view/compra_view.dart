@@ -50,7 +50,7 @@ class _CompraViewState extends State<CompraView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Imagem
+            
               Image.asset(
                 camiseta.imagem,
                 height: 150,
@@ -65,7 +65,7 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 8),
 
-              // Preço unitário
+             
               Text(
                 'R\$ ${camiseta.preco.toStringAsFixed(2)}',
                 style: const TextStyle(
@@ -75,7 +75,7 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              // Tamanho (Dropdown)
+              
               DropdownButtonFormField<String>(
                 initialValue: _tamanhoSelecionado,
                 decoration: const InputDecoration(labelText: 'Tamanho'),
@@ -102,7 +102,7 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              // Quantidade
+              
               Row(
                 children: [
                   const Text('Quantidade:'),
@@ -133,7 +133,7 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              // Parcelas (Dropdown)
+              
               DropdownButtonFormField<int>(
                 initialValue: _parcelas,
                 decoration: const InputDecoration(labelText: 'Parcelas'),
@@ -150,7 +150,6 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              // Nome do comprador
               TextFormField(
                 controller: _nomeController,
                 decoration: const InputDecoration(
@@ -167,7 +166,6 @@ class _CompraViewState extends State<CompraView> {
 
               const SizedBox(height: 16),
 
-              // Endereço de entrega
               TextFormField(
                 controller: _enderecoController,
                 decoration: const InputDecoration(
@@ -182,7 +180,7 @@ class _CompraViewState extends State<CompraView> {
                 },
               ),
               const SizedBox(height: 16),
-              // Card de total com quantidade e juros
+              
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -197,7 +195,7 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              // Botão finalizar
+              
               ElevatedButton(
                 onPressed: () async {
                   final formularioValido =

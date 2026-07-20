@@ -15,7 +15,7 @@ class CamisetaCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Imagem com tratamento de erro
+            
             Image.asset(
               camiseta.imagem,
               height: 120,
