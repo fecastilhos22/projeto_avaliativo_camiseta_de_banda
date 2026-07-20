@@ -13,14 +13,11 @@ class CatalogoView extends StatefulWidget {
 class _CatalogoViewState extends State<CatalogoView> {
   final CamisetaViewModel _viewModel = CamisetaViewModel();
 
-  final TextEditingController _pesquisaController =
-      TextEditingController();
+  final TextEditingController _pesquisaController = TextEditingController();
 
-  final TextEditingController _precoMinimoController =
-      TextEditingController();
+  final TextEditingController _precoMinimoController = TextEditingController();
 
-  final TextEditingController _precoMaximoController =
-      TextEditingController();
+  final TextEditingController _precoMaximoController = TextEditingController();
 
   List<Camiseta> _camisetas = [];
   List<Camiseta> _camisetasFiltradas = [];
@@ -56,17 +53,15 @@ class _CatalogoViewState extends State<CatalogoView> {
 
   void _aplicarFiltros() {
     final resultado = _camisetas.where((camiseta) {
-      final correspondeAoTitulo = camiseta.titulo
-          .toLowerCase()
-          .contains(_textoPesquisa.toLowerCase());
+      final correspondeAoTitulo = camiseta.titulo.toLowerCase().contains(
+        _textoPesquisa.toLowerCase(),
+      );
 
       final correspondeAoPrecoMinimo =
-          _precoMinimo == null ||
-          camiseta.preco >= _precoMinimo!;
+          _precoMinimo == null || camiseta.preco >= _precoMinimo!;
 
       final correspondeAoPrecoMaximo =
-          _precoMaximo == null ||
-          camiseta.preco <= _precoMaximo!;
+          _precoMaximo == null || camiseta.preco <= _precoMaximo!;
 
       return correspondeAoTitulo &&
           correspondeAoPrecoMinimo &&
@@ -86,6 +81,11 @@ class _CatalogoViewState extends State<CatalogoView> {
     }
 
     return double.tryParse(textoFormatado);
+  }
+
+  double _obterPrecoMaximoCatalogo() {
+    if (_camisetas.isEmpty) return 0;
+    return _camisetas.map((c) => c.preco).reduce((a, b) => a > b ? a : b);
   }
 
   void _limparFiltros() {
@@ -145,10 +145,12 @@ class _CatalogoViewState extends State<CatalogoView> {
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Preço máximo',
                     prefixText: 'R\$ ',
-                    border: OutlineInputBorder(),
+                    helperText:
+                        'Catálogo até R\$ ${_obterPrecoMaximoCatalogo().toStringAsFixed(2)}',
+                    border: const OutlineInputBorder(),
                   ),
                   onChanged: (valor) {
                     _precoMaximo = _converterPreco(valor);
@@ -170,26 +172,21 @@ class _CatalogoViewState extends State<CatalogoView> {
 
   Widget _construirCatalogo() {
     if (_camisetasFiltradas.isEmpty) {
-      return const Center(
-        child: Text('Nenhuma camiseta encontrada'),
-      );
+      return const Center(child: Text('Nenhuma camiseta encontrada'));
     }
 
     if (_exibirEmGrade) {
       return GridView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: _camisetasFiltradas.length,
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 8,
           mainAxisSpacing: 8,
           childAspectRatio: 0.7,
         ),
         itemBuilder: (context, index) {
-          return CamisetaCard(
-            camiseta: _camisetasFiltradas[index],
-          );
+          return CamisetaCard(camiseta: _camisetasFiltradas[index]);
         },
       );
     }
@@ -197,9 +194,7 @@ class _CatalogoViewState extends State<CatalogoView> {
     return ListView.builder(
       itemCount: _camisetasFiltradas.length,
       itemBuilder: (context, index) {
-        return CamisetaCard(
-          camiseta: _camisetasFiltradas[index],
-        );
+        return CamisetaCard(camiseta: _camisetasFiltradas[index]);
       },
     );
   }
@@ -211,14 +206,8 @@ class _CatalogoViewState extends State<CatalogoView> {
         title: const Text('Catálogo'),
         actions: [
           IconButton(
-            tooltip: _exibirEmGrade
-                ? 'Exibir como lista'
-                : 'Exibir como grade',
-            icon: Icon(
-              _exibirEmGrade
-                  ? Icons.view_list
-                  : Icons.grid_view,
-            ),
+            tooltip: _exibirEmGrade ? 'Exibir como lista' : 'Exibir como grade',
+            icon: Icon(_exibirEmGrade ? Icons.view_list : Icons.grid_view),
             onPressed: () {
               setState(() {
                 _exibirEmGrade = !_exibirEmGrade;
@@ -230,9 +219,7 @@ class _CatalogoViewState extends State<CatalogoView> {
       body: Column(
         children: [
           _construirFiltros(),
-          Expanded(
-            child: _construirCatalogo(),
-          ),
+          Expanded(child: _construirCatalogo()),
         ],
       ),
     );

@@ -50,7 +50,6 @@ class _CompraViewState extends State<CompraView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-            
               Image.asset(
                 camiseta.imagem,
                 height: 150,
@@ -65,7 +64,6 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 8),
 
-             
               Text(
                 'R\$ ${camiseta.preco.toStringAsFixed(2)}',
                 style: const TextStyle(
@@ -75,7 +73,6 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              
               DropdownButtonFormField<String>(
                 initialValue: _tamanhoSelecionado,
                 decoration: const InputDecoration(labelText: 'Tamanho'),
@@ -102,7 +99,6 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              
               Row(
                 children: [
                   const Text('Quantidade:'),
@@ -133,7 +129,6 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              
               DropdownButtonFormField<int>(
                 initialValue: _parcelas,
                 decoration: const InputDecoration(labelText: 'Parcelas'),
@@ -156,10 +151,9 @@ class _CompraViewState extends State<CompraView> {
                   labelText: 'Nome do comprador',
                 ),
                 validator: (valor) {
-                  if (valor == null || valor.trim().isEmpty) {
-                    return 'Informe o nome do comprador';
+                  if (valor == null || valor.trim().length < 4) {
+                    return 'Mínimo de 4 caracteres';
                   }
-
                   return null;
                 },
               ),
@@ -180,7 +174,7 @@ class _CompraViewState extends State<CompraView> {
                 },
               ),
               const SizedBox(height: 16),
-              
+
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -195,18 +189,22 @@ class _CompraViewState extends State<CompraView> {
               ),
               const SizedBox(height: 16),
 
-              
               ElevatedButton(
                 onPressed: () async {
                   final formularioValido =
                       _formKey.currentState?.validate() ?? false;
 
                   if (!formularioValido) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Preencha os campos corretamente'),
+                      ),
+                    );
                     return;
                   }
 
                   final compra = Compra(
-                    produtoTitulo: camiseta.titulo,
+                    idProduto: camiseta.titulo,
                     tamanho: _tamanhoSelecionado!,
                     quantidade: _quantidade,
                     valorTotal: totalComJuros,
