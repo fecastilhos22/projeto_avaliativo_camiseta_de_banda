@@ -17,14 +17,14 @@ class Camiseta {
         _imagem = imagem,
         _disponivel = disponivel;
 
-  // Getters (encapsulamento: atributos privados, acesso controlado)
+
   String get titulo => _titulo;
   double get preco => _preco;
   List<String> get tamanhosDisponiveis => _tamanhosDisponiveis;
   String get imagem => _imagem;
   bool get disponivel => _disponivel;
 
-  // Transforma um Map (vindo do JSON) em um objeto Camiseta
+  
   factory Camiseta.fromJson(Map<String, dynamic> json) {
     return Camiseta(
       titulo: json['titulo'],
